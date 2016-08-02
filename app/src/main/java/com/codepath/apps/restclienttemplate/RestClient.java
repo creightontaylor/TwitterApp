@@ -1,13 +1,13 @@
 package com.codepath.apps.restclienttemplate;
 
-import org.scribe.builder.api.Api;
-import org.scribe.builder.api.FlickrApi;
-
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.scribe.builder.api.Api;
+import org.scribe.builder.api.FlickrApi;
 
 /*
  * 
@@ -23,9 +23,9 @@ import com.loopj.android.http.RequestParams;
  */
 public class RestClient extends OAuthBaseClient {
 	public static final Class<? extends Api> REST_API_CLASS = FlickrApi.class; // Change this
-	public static final String REST_URL = "http://api.flickr.com/services"; // Change this, base API URL
-	public static final String REST_CONSUMER_KEY = "SOME_KEY";       // Change this
-	public static final String REST_CONSUMER_SECRET = "SOME_SECRET"; // Change this
+	public static final String REST_URL = "https://api.twitter.com/1.1/"; 
+	public static final String REST_CONSUMER_KEY = "omoMNbBZqh4zlFjCnsEh3pkAc";
+	public static final String REST_CONSUMER_SECRET = "aSMkzTd076jHj9cNfSRf5y52w6f0JJRBRHM0NsuWXIPMeKsuoc";
 	public static final String REST_CALLBACK_URL = "oauth://cprest"; // Change this (here and in manifest)
 
 	public RestClient(Context context) {

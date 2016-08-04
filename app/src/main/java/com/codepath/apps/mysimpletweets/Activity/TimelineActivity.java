@@ -48,8 +48,8 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d("debug", "Success" + response.toString());
                 aTweets.addAll(Tweet.fromJSONarray(response));
+                Log.d("debug", "Adapter Array contents" + aTweets.toString());
             }
 
             @Override

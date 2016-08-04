@@ -3,20 +3,28 @@ package com.codepath.apps.mysimpletweets.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ListView;
 
+import com.codepath.apps.mysimpletweets.Adapter.TweetsArrayAdapter;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
+import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
 
     private TwitterClient client;
+    private TweetsArrayAdapter aTweets;
+    private ArrayList<Tweet> tweets;
+    private ListView lvTweets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,14 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApplication.getRestClient();
         populateTimeline();
+        setUpListView();
+    }
+
+    private void setUpListView() {
+        lvTweets = (ListView) findViewById(R.id.lvTweets);
+        tweets = new ArrayList<>();
+        aTweets = new TweetsArrayAdapter(this, tweets);
+        lvTweets.setAdapter(aTweets);
     }
 
     private void populateTimeline() {
@@ -33,6 +49,7 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.d("debug", "Success" + response.toString());
+                aTweets.addAll(Tweet.fromJSONarray(response));
             }
 
             @Override

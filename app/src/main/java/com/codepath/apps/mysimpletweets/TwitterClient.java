@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.Api;
@@ -23,7 +24,7 @@ import org.scribe.builder.api.TwitterApi;
  */
 public class TwitterClient extends OAuthBaseClient {
 	public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class;
-	public static final String REST_URL = "https://api.twitter.com/1.1/";
+	public static final String REST_URL = "https://api.twitter.com/1.1";
 	public static final String REST_CONSUMER_KEY = "omoMNbBZqh4zlFjCnsEh3pkAc";
 	public static final String REST_CONSUMER_SECRET = "aSMkzTd076jHj9cNfSRf5y52w6f0JJRBRHM0NsuWXIPMeKsuoc";
 	public static final String REST_CALLBACK_URL = "oauth://cpsimpletweets";
@@ -43,7 +44,7 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(JsonHttpResponseHandler handler) {
 		String apiURL = getApiUrl("statuses/home_timeline.json");
 
 		RequestParams params = new RequestParams();
@@ -52,6 +53,26 @@ public class TwitterClient extends OAuthBaseClient {
 
 		getClient().get(apiURL, params, handler);
 	}
+
+//	public void getHomeTimeline() {
+//		String apiURL = getApiUrl("statuses/home_timeline.json");
+//
+//		RequestParams params = new RequestParams();
+//		params.put("count", 25);
+//		params.put("since_id", 1);
+//
+//		getClient().get(apiURL, params, new JsonHttpResponseHandler() {
+//			@Override
+//			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//				Log.d("debug", response.toString());
+//			}
+//
+//			@Override
+//			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//				Log.d("debug", errorResponse.toString());
+//			}
+//		});
+//	}
 
 	public void composeTweet() {
 

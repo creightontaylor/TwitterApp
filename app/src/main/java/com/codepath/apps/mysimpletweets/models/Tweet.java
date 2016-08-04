@@ -14,6 +14,9 @@ public class Tweet {
     private long unuqueID;
     private User user;
     private String createdAt;
+    private int retweets;
+    private int likes;
+    private String bodyImageURL;
 
 
     public String getBody() {
@@ -32,6 +35,11 @@ public class Tweet {
         return createdAt;
     }
 
+    public int getRetweets() {return retweets;}
+
+    public int getLikes() {return likes;}
+
+    public String getBodyImageURL() {return bodyImageURL; }
 
     public static Tweet fromJSON(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
@@ -41,6 +49,8 @@ public class Tweet {
             tweet.unuqueID = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.retweets = Integer.parseInt(jsonObject.getString("retweet_count"));
+            tweet.bodyImageURL = jsonObject.getString("");
         } catch (JSONException e) {
             e.printStackTrace();
         }

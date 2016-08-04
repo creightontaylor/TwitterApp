@@ -11,6 +11,9 @@ public class User {
     private Long uid;
     private String screeName;
     private String profileImageURL;
+    private String location;
+    private int followers;
+
 
 
     public String getName() {
@@ -29,6 +32,9 @@ public class User {
         return profileImageURL;
     }
 
+    public int getFollowers() {return followers; }
+
+    public String getLocation() {return location;  }
 
     public static User fromJSON(JSONObject jsonObject) {
         User user = new User();
@@ -38,6 +44,8 @@ public class User {
             user.uid = jsonObject.getLong("id");
             user.screeName = jsonObject.getString("screen_name");
             user.profileImageURL = jsonObject.getString("profile_image_url");
+            user.location = jsonObject.getString("location");
+            user.followers = Integer.parseInt(jsonObject.getString("followers_count"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

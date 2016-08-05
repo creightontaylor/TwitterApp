@@ -27,27 +27,41 @@ import java.util.Locale;
  */
 public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdapter.ViewHolder> {
     private ArrayList<Tweet> tweets;
-
-    private ImageView ivAvatar;
-    private ImageView ivBodyPicture;
-    private TextView tvScreenName;
-    private TextView tvHandle;
-    private TextView tvTimeStamp;
-    private TextView tvBody;
-    private TextView tvLikes;
-    private TextView tvRetweets;
-    private Button btnRetweet;
-    private Button btnLike;
-    private Button btnReply;
-
     private Context thisContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardView;
+
+        private ImageView ivAvatar;
+        private ImageView ivBodyPicture;
+        private TextView tvScreenName;
+        private TextView tvHandle;
+        private TextView tvTimeStamp;
+        private TextView tvBody;
+        private TextView tvLikes;
+        private TextView tvRetweets;
+        private Button btnRetweet;
+        private Button btnLike;
+        private Button btnReply;
 
         public ViewHolder(CardView cv) {
             super(cv);
-            cardView = cv;
+            findSubViews(cv);
+        }
+
+        public void findSubViews(CardView cv) {
+            ivAvatar = (ImageView) cv.findViewById(R.id.ivProfileImage);
+            ivBodyPicture = (ImageView) cv.findViewById(R.id.ivBodyPicture);
+
+            tvScreenName = (TextView) cv.findViewById(R.id.tvScreenName);
+            tvHandle = (TextView) cv.findViewById(R.id.tvHandle);
+            tvTimeStamp = (TextView) cv.findViewById(R.id.tvTimeStamp);
+            tvBody = (TextView) cv.findViewById(R.id.tvBody);
+            tvLikes = (TextView) cv.findViewById(R.id.tvLikes);
+            tvRetweets = (TextView) cv.findViewById(R.id.tvRetweets);
+
+            btnRetweet = (Button) cv.findViewById(R.id.btnRetweet);
+            btnLike = (Button) cv.findViewById(R.id.btnLike);
+            btnReply = (Button) cv.findViewById(R.id.btnReply);
         }
     }
 
@@ -69,45 +83,29 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CardView cardView = holder.cardView;
         Tweet tweet = tweets.get(position);
-        findAndSetupSubviews(cardView, tweet);
+        setSubviews(holder, tweet);
     }
 
-    private void findAndSetupSubviews(CardView cv, Tweet tweet) {
-        ivAvatar = (ImageView) cv.findViewById(R.id.ivProfileImage);
-        if (ivAvatar != null) {
-            setImageFor(ivAvatar, tweet);
-        }
-        ivBodyPicture = (ImageView) cv.findViewById(R.id.ivBodyPicture);
-        if (ivBodyPicture != null) {
-            setImageFor(ivBodyPicture, tweet);
+    private void setSubviews(ViewHolder viewHolder, Tweet tweet) {
+        if (viewHolder.ivAvatar != null) {
+            setImageFor(viewHolder.ivAvatar, tweet);
         }
 
-        tvScreenName = (TextView) cv.findViewById(R.id.tvScreenName);
-        tvScreenName.setText(tweet.getUser().getScreeName());
+        if (viewHolder.ivBodyPicture != null) {
+            setImageFor(viewHolder.ivBodyPicture, tweet);
+        }
 
-        tvHandle = (TextView) cv.findViewById(R.id.tvHandle);
-        tvHandle.setText(tweet.getUser().getName());
+        viewHolder.tvScreenName.setText(tweet.getUser().getScreeName());
+        viewHolder.tvHandle.setText(tweet.getUser().getName());
+        viewHolder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
+        viewHolder.tvBody.setText(tweet.getBody());
+        viewHolder.tvLikes.setText(String.valueOf(tweet.getRetweets()));
+        viewHolder.tvRetweets.setText(String.valueOf(tweet.getRetweets()));
 
-        tvTimeStamp = (TextView) cv.findViewById(R.id.tvTimeStamp);
-        tvTimeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
-
-        tvBody = (TextView) cv.findViewById(R.id.tvBody);
-        tvBody.setText(tweet.getBody());
-
-        tvLikes = (TextView) cv.findViewById(R.id.tvLikes);
-        tvLikes.setText(String.valueOf(tweet.getRetweets()));
-
-        tvRetweets = (TextView) cv.findViewById(R.id.tvRetweets);
-        tvRetweets.setText(String.valueOf(tweet.getRetweets()));
-
-        btnRetweet = (Button) cv.findViewById(R.id.btnRetweet);
-        btnRetweet.setOnClickListener(retweetHandler);
-        btnLike = (Button) cv.findViewById(R.id.btnLike);
-        btnLike.setOnClickListener(likeHandler);
-        btnReply = (Button) cv.findViewById(R.id.btnReply);
-        btnReply.setOnClickListener(replyHandler);
+        viewHolder.btnRetweet.setOnClickListener(retweetHandler);
+        viewHolder.btnLike.setOnClickListener(likeHandler);
+        viewHolder.btnReply.setOnClickListener(replyHandler);
     }
 
     View.OnClickListener retweetHandler = new View.OnClickListener() {

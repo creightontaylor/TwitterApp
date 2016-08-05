@@ -37,7 +37,7 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         client = TwitterApplication.getRestClient();
-        populateTimeline();
+        populateTimeline(1);
         setUpRecycleView();
     }
 
@@ -45,14 +45,20 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets = (RecyclerView) findViewById(R.id.tweetCardRecycleView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rvTweets.setLayoutManager(staggeredGridLayoutManager);
+        rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                populateTimeline(page);
+            }
+        });
 
         tweets = new ArrayList<>();
         aTweetsAdapter = new TweetsRecycleAdapter(tweets);
         rvTweets.setAdapter(aTweetsAdapter);
     }
 
-    private void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+    private void populateTimeline(int sinceID) {
+        client.getHomeTimeline(sinceID, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {

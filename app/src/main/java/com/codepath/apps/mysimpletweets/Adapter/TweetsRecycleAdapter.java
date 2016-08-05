@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,10 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by andrj148 on 8/4/16.
@@ -87,7 +91,7 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         tvHandle.setText(tweet.getUser().getName());
 
         tvTimeStamp = (TextView) cv.findViewById(R.id.tvTimeStamp);
-        tvTimeStamp.setText(formatTimestamp(tweet.getCreatedAt()));
+        tvTimeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
 
         tvBody = (TextView) cv.findViewById(R.id.tvBody);
         tvBody.setText(tweet.getBody());
@@ -124,10 +128,20 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         }
     };
 
-    private String formatTimestamp(String originalTimeStamp) {
-        String formattedTimestamp = "";
+    private String getRelativeTimeAgo(String originalTimeStamp) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
 
-        return formattedTimestamp;
+        String relativeDate = "";
+        try {
+            long dateMillis = sf.parse(originalTimeStamp).getTime();
+            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
     }
 
     private void setImageFor(ImageView imageView, Tweet tweet) {

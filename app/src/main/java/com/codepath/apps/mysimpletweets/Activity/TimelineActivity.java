@@ -45,7 +45,7 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets = (RecyclerView) findViewById(R.id.tweetCardRecycleView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rvTweets.setLayoutManager(staggeredGridLayoutManager);
-        
+
         tweets = new ArrayList<>();
         aTweetsAdapter = new TweetsRecycleAdapter(tweets);
         rvTweets.setAdapter(aTweetsAdapter);

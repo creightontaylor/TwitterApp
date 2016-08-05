@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/ivScreenName"
+            android:id="@+id/tvScreenName"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/ivAvatar"
             android:layout_toEndOf="@+id/ivAvatar" />
@@ -40,8 +40,8 @@
             android:text="New Text"
             android:id="@+id/tvHandle"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/ivScreenName"
-            android:layout_toEndOf="@+id/ivScreenName" />
+            android:layout_toRightOf="@+id/tvScreenName"
+            android:layout_toEndOf="@+id/tvScreenName" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tvBody"
-            android:layout_below="@+id/ivScreenName"
+            android:layout_below="@+id/tvScreenName"
             android:layout_toRightOf="@+id/ivAvatar"
             android:layout_alignBottom="@+id/ivAvatar"
             android:layout_alignParentRight="true"

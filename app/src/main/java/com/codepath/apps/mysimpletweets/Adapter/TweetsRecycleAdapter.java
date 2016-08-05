@@ -72,11 +72,15 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
 
     private void findAndSetupSubviews(CardView cv, Tweet tweet) {
         ivAvatar = (ImageView) cv.findViewById(R.id.ivProfileImage);
-        setImageFor(ivAvatar, tweet);
+        if (ivAvatar != null) {
+            setImageFor(ivAvatar, tweet);
+        }
         ivBodyPicture = (ImageView) cv.findViewById(R.id.ivBodyPicture);
-        setImageFor(ivBodyPicture, tweet);
+        if (ivBodyPicture != null) {
+            setImageFor(ivBodyPicture, tweet);
+        }
 
-        tvScreenName = (TextView) cv.findViewById(R.id.tvUserName);
+        tvScreenName = (TextView) cv.findViewById(R.id.tvScreenName);
         tvScreenName.setText(tweet.getUser().getScreeName());
 
         tvHandle = (TextView) cv.findViewById(R.id.tvHandle);
@@ -127,7 +131,7 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
     }
 
     private void setImageFor(ImageView imageView, Tweet tweet) {
-        imageView.setImageResource(android.R.color.transparent);
+        imageView.setImageResource(0);
         if (!TextUtils.isEmpty(tweet.getUser().getProfileImageURL())) {
             Picasso.with(thisContext).load(tweet.getUser().getProfileImageURL()).into(imageView);
         }

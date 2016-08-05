@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
@@ -103,19 +104,19 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
 
     View.OnClickListener retweetHandler = new View.OnClickListener() {
         public void onClick(View v) {
-            // it was the retweet button
+            Toast.makeText(thisContext, "Retweet button tapped", Toast.LENGTH_SHORT).show();
         }
     };
 
     View.OnClickListener likeHandler = new View.OnClickListener() {
         public void onClick(View v) {
-            // it was the like button
+            Toast.makeText(thisContext, "Like button tapped", Toast.LENGTH_SHORT).show();
         }
     };
 
     View.OnClickListener replyHandler = new View.OnClickListener() {
         public void onClick(View v) {
-            // it was the reply button
+            Toast.makeText(thisContext, "Reply button tapped", Toast.LENGTH_SHORT).show();
         }
     };
 

@@ -54,26 +54,6 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(apiURL, params, handler);
 	}
 
-//	public void getHomeTimeline() {
-//		String apiURL = getApiUrl("statuses/home_timeline.json");
-//
-//		RequestParams params = new RequestParams();
-//		params.put("count", 25);
-//		params.put("since_id", 1);
-//
-//		getClient().get(apiURL, params, new JsonHttpResponseHandler() {
-//			@Override
-//			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//				Log.d("debug", response.toString());
-//			}
-//
-//			@Override
-//			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//				Log.d("debug", errorResponse.toString());
-//			}
-//		});
-//	}
-
 	public void composeTweet() {
 
 	}

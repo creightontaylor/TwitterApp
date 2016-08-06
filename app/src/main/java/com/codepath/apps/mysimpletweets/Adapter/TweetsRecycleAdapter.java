@@ -96,10 +96,12 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
     }
 
     private void setSubviews(ViewHolder viewHolder, Tweet tweet) {
+        viewHolder.ivAvatar.setImageResource(0);
         if (tweet.getUser().getProfileImageURL() != null) {
             setImageFor(viewHolder.ivAvatar, tweet.getUser().getProfileImageURL());
         }
 
+        viewHolder.ivBodyPicture.setImageResource(0);
         if (tweet.getBodyImageURL() != null) {
             setImageFor(viewHolder.ivBodyPicture, tweet.getBodyImageURL());
         }
@@ -108,7 +110,8 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         viewHolder.tvHandle.setText("@" + tweet.getUser().getName());
         viewHolder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         viewHolder.tvBody.setText(tweet.getBody());
-        viewHolder.tvLikes.setText(String.valueOf(tweet.getRetweets()));
+
+        viewHolder.tvLikes.setText(String.valueOf(tweet.getLikes()));
         viewHolder.tvRetweets.setText(String.valueOf(tweet.getRetweets()));
 
         viewHolder.btnRetweet.setOnClickListener(retweetHandler);
@@ -124,7 +127,13 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
 
     View.OnClickListener likeHandler = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(thisContext, "Like button tapped", Toast.LENGTH_SHORT).show();
+//            if (userLikedTweet) {
+//                v.setBackgroundColor(ContextCompat.getColor(thisContext, android.R.color.transparent));
+//                userLikedTweet = false;
+//            } else {
+//                v.setBackgroundColor(ContextCompat.getColor(thisContext, android.R.color.holo_blue_bright));
+//                userLikedTweet = true;
+//            }
         }
     };
 
@@ -151,7 +160,6 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
     }
 
     private void setImageFor(ImageView imageView, String url) {
-        imageView.setImageResource(0);
         Picasso.with(thisContext).load(url).transform(new RoundedCornersTransformation(10, 0)).into(imageView);
     }
 }

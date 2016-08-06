@@ -65,7 +65,7 @@ public class TimelineActivity extends AppCompatActivity {
                 tweets.clear();
                 tweets.addAll(Tweet.fromJSONarray(response));
                 aTweetsAdapter.notifyDataSetChanged();
-                Log.d("debug", "Adapter Array contents" + aTweetsAdapter.toString());
+                Log.d("DEBUG", "Adapter Array contents size =" + tweets.size());
             }
 
             @Override

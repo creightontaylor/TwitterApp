@@ -50,7 +50,8 @@ public class Tweet {
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
             tweet.retweets = Integer.parseInt(jsonObject.getString("retweet_count"));
-            tweet.bodyImageURL = jsonObject.getString("media_url");
+            JSONObject mediaURLs = (JSONObject) jsonObject.getJSONObject("entities").getJSONArray("media").get(0);
+            tweet.bodyImageURL = mediaURLs.getString("media_url");
         } catch (JSONException e) {
             e.printStackTrace();
         }

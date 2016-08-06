@@ -3,7 +3,6 @@ package com.codepath.apps.mysimpletweets.Adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 /**
  * Created by andrj148 on 8/4/16.
  */
@@ -30,7 +31,7 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
     private Context thisContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
+        private CardView cardView;
         private ImageView ivAvatar;
         private ImageView ivBodyPicture;
         private TextView tvScreenName;
@@ -45,11 +46,12 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
 
         public ViewHolder(CardView cv) {
             super(cv);
+            cardView = cv;
             findSubViews(cv);
         }
-
+//should I pass array of tweets into wiewholder instead of adapter?
         public void findSubViews(CardView cv) {
-            ivAvatar = (ImageView) cv.findViewById(R.id.ivProfileImage);
+            ivAvatar = (ImageView) cv.findViewById(R.id.ivAvatar);
             ivBodyPicture = (ImageView) cv.findViewById(R.id.ivBodyPicture);
 
             tvScreenName = (TextView) cv.findViewById(R.id.tvScreenName);
@@ -85,19 +87,25 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tweet tweet = tweets.get(position);
         setSubviews(holder, tweet);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(thisContext, "Tweet Cardview tapped", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setSubviews(ViewHolder viewHolder, Tweet tweet) {
-        if (viewHolder.ivAvatar != null) {
-            setImageFor(viewHolder.ivAvatar, tweet);
+        if (tweet.getUser().getProfileImageURL() != null) {
+            setImageFor(viewHolder.ivAvatar, tweet.getUser().getProfileImageURL());
         }
 
-        if (viewHolder.ivBodyPicture != null) {
-            setImageFor(viewHolder.ivBodyPicture, tweet);
+        if (tweet.getBodyImageURL() != null) {
+            setImageFor(viewHolder.ivBodyPicture, tweet.getBodyImageURL());
         }
 
         viewHolder.tvScreenName.setText(tweet.getUser().getScreeName());
-        viewHolder.tvHandle.setText(tweet.getUser().getName());
+        viewHolder.tvHandle.setText("@" + tweet.getUser().getName());
         viewHolder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         viewHolder.tvBody.setText(tweet.getBody());
         viewHolder.tvLikes.setText(String.valueOf(tweet.getRetweets()));
@@ -142,10 +150,8 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         return relativeDate;
     }
 
-    private void setImageFor(ImageView imageView, Tweet tweet) {
+    private void setImageFor(ImageView imageView, String url) {
         imageView.setImageResource(0);
-        if (!TextUtils.isEmpty(tweet.getUser().getProfileImageURL())) {
-            Picasso.with(thisContext).load(tweet.getUser().getProfileImageURL()).into(imageView);
-        }
+        Picasso.with(thisContext).load(url).transform(new RoundedCornersTransformation(10, 0)).into(imageView);
     }
 }

@@ -6,5 +6,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="composeHint">What\'s Happening?</string>
+    <string name="Close">CLOSE</string>
+    <string name="Tweet">TWEET</string>
 
 </resources>

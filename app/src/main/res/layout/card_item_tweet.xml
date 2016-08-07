@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tvBody"
+            android:autoLink="all"
             android:layout_below="@+id/tvScreenName"
             android:layout_toRightOf="@+id/ivAvatar"
             android:layout_alignParentRight="true"

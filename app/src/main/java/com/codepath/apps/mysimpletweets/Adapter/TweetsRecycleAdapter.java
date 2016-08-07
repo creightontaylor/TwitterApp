@@ -106,8 +106,8 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
             setImageFor(viewHolder.ivBodyPicture, tweet.getBodyImageURL());
         }
 
-        viewHolder.tvScreenName.setText(tweet.getUser().getScreeName());
-        viewHolder.tvHandle.setText("@" + tweet.getUser().getName());
+        viewHolder.tvScreenName.setText("@" + tweet.getUser().getScreeName());
+        viewHolder.tvHandle.setText(tweet.getUser().getName());
         viewHolder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         viewHolder.tvBody.setText(tweet.getBody());
 

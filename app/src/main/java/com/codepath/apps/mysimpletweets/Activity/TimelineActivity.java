@@ -103,7 +103,7 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", "Success" + response.toString());
-
+                populateTimeline(1);
             }
 
             @Override

@@ -85,9 +85,9 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                tweets.clear();
+                int currentSIze = aTweetsAdapter.getItemCount();
                 tweets.addAll(Tweet.fromJSONarray(response));
-                aTweetsAdapter.notifyDataSetChanged();
+                aTweetsAdapter.notifyItemRangeInserted(currentSIze, tweets.size() - 1);
                 Log.d("DEBUG", "Adapter Array contents size =" + tweets.size());
             }
 
@@ -102,7 +102,6 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         client.composeTweet(input, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("DEBUG", "Success" + response.toString());
                 populateTimeline(1);
             }
 

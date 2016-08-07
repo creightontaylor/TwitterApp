@@ -49,13 +49,21 @@ public class ComposeFragment extends DialogFragment {
         ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
         TextView tvHandle = (TextView) view.findViewById(R.id.tvScreenName);
         TextView tvScreenName = (TextView) view.findViewById(R.id.tvScreenName);
-        Button btnDismiss = (Button) view.findViewById(R.id.btnDismiss);
+        TextView tvCharacterCount = (TextView) view.findViewById(R.id.tvCharacterCount);
+
         etComposeBody = (EditText) view.findViewById(R.id.etComposeBody);
         showKeyboardAndFocusOnBody(etComposeBody);
-        TextView tvCharacterCount = (TextView) view.findViewById(R.id.tvCharacterCount);
-        Button btnTweet = (Button) view.findViewById(R.id.btnDismiss);
 
+        Button btnTweet = (Button) view.findViewById(R.id.btnTweet);
+        setupTweetButtonPressed(btnTweet);
 
+        Button btnDismiss = (Button) view.findViewById(R.id.btnDismiss);
+        btnDismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
     }
 
     private void showKeyboardAndFocusOnBody(View editText) {
@@ -63,8 +71,14 @@ public class ComposeFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
-    public void tweetButtonPressed(View view) {
-        DismissComposeTweetListener listener = (DismissComposeTweetListener) getActivity();
-        listener.onCompleteUserInput(etComposeBody.getText().toString());
+    public void setupTweetButtonPressed(Button tweetButton) {
+        tweetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DismissComposeTweetListener listener = (DismissComposeTweetListener) getActivity();
+                listener.onCompleteUserInput(etComposeBody.getText().toString());
+                dismiss();
+            }
+        });
     }
 }

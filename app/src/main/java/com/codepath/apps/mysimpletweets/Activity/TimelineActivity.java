@@ -40,6 +40,8 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         client = TwitterApplication.getRestClient();
         populateTimeline(1);
         setUpRecycleView();
+
+
     }
 
     @Override
@@ -96,8 +98,18 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         });
     }
 
-    @Override
     public void onCompleteUserInput(String input) {
-        client.composeTweet(input);
+        client.composeTweet(input, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("DEBUG", "Success" + response.toString());
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", "Failure" + errorResponse.toString());
+            }
+        });
     }
 }

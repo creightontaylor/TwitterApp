@@ -1,6 +1,7 @@
 package com.codepath.apps.mysimpletweets;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -54,8 +55,12 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(apiURL, params, handler);
 	}
 
-	public void composeTweet() {
+	public boolean composeTweet(String message) {
+		Boolean wasSuccessfullyTweeted = false;
+		Log.d("DEBUG", "message to be tweeted " + message);
 
+
+		return wasSuccessfullyTweeted;
 	}
 
 

@@ -96,27 +96,44 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
     }
 
     private void setSubviews(ViewHolder viewHolder, Tweet tweet) {
-        viewHolder.ivAvatar.setImageResource(0);
+        ImageView ivAvatar = viewHolder.ivAvatar;
+        ivAvatar.setImageResource(0);
         if (tweet.getUser().getProfileImageURL() != null) {
-            setImageFor(viewHolder.ivAvatar, tweet.getUser().getProfileImageURL());
+            setImageFor(ivAvatar, tweet.getUser().getProfileImageURL());
         }
 
-        viewHolder.ivBodyPicture.setImageResource(0);
+        ImageView ivBodyImage = viewHolder.ivBodyPicture;
+        ivBodyImage.setImageResource(0);
         if (tweet.getBodyImageURL() != null) {
-            setImageFor(viewHolder.ivBodyPicture, tweet.getBodyImageURL());
+            setImageFor(ivBodyImage, tweet.getBodyImageURL());
         }
 
-        viewHolder.tvScreenName.setText("@" + tweet.getUser().getScreeName());
-        viewHolder.tvHandle.setText(tweet.getUser().getName());
-        viewHolder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
-        viewHolder.tvBody.setText(tweet.getBody());
+        TextView name = viewHolder.tvScreenName;
+        name.setText("@" + tweet.getUser().getScreeName());
 
-        viewHolder.tvLikes.setText(String.valueOf(tweet.getLikes()));
-        viewHolder.tvRetweets.setText(String.valueOf(tweet.getRetweets()));
+        TextView handle = viewHolder.tvHandle;
+        handle.setText(tweet.getUser().getName());
 
-        viewHolder.btnRetweet.setOnClickListener(retweetHandler);
-        viewHolder.btnLike.setOnClickListener(likeHandler);
-        viewHolder.btnReply.setOnClickListener(replyHandler);
+        TextView timeStamp = viewHolder.tvTimeStamp;
+        timeStamp.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
+
+        TextView body = viewHolder.tvBody;
+        body.setText(tweet.getBody());
+
+        TextView likes = viewHolder.tvLikes;
+        likes.setText(String.valueOf(tweet.getLikes()));
+
+        TextView reTweets = viewHolder.tvRetweets;
+        reTweets.setText(String.valueOf(tweet.getRetweets()));
+
+        Button reTweetButton = viewHolder.btnRetweet;
+        reTweetButton.setOnClickListener(retweetHandler);
+
+        Button likeButton = viewHolder.btnLike;
+        likeButton.setOnClickListener(likeHandler);
+
+        Button replyButton = viewHolder.btnReply;
+        replyButton.setOnClickListener(replyHandler);
     }
 
     View.OnClickListener retweetHandler = new View.OnClickListener() {

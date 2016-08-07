@@ -71,7 +71,7 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                populateTimeline(page);
+                populateTimeline(totalItemsCount);
             }
         });
 

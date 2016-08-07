@@ -14,14 +14,26 @@ import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.Interface.DismissComposeTweetListener;
 import com.codepath.apps.mysimpletweets.R;
+import com.codepath.apps.mysimpletweets.models.User;
+
+import org.parceler.Parcels;
 
 public class ComposeFragment extends DialogFragment {
     private EditText etComposeBody;
+    private User currentUser;
 
     public ComposeFragment() {
         // Required empty public constructor
     }
 
+    public static ComposeFragment newInstance(User user) {
+        ComposeFragment frag = new ComposeFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("currentUser", Parcels.wrap(user));
+        frag.setArguments(args);
+        frag.currentUser = user;
+        return frag;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

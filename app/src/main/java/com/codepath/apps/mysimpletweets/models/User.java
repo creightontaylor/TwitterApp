@@ -2,10 +2,12 @@ package com.codepath.apps.mysimpletweets.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 /**
  * Created by andrj148 on 8/4/16.
  */
+@Parcel
 public class User {
     private String name;
     private Long uid;

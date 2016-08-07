@@ -55,10 +55,17 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(apiURL, params, handler);
 	}
 
-	public boolean composeTweet(String message) {
+	public boolean composeTweet(String message, String replyTo) {
 		Boolean wasSuccessfullyTweeted = false;
 		Log.d("DEBUG", "message to be tweeted " + message);
+		String postAPIurl = getApiUrl("statuses/update.json");
 
+		RequestParams params = new RequestParams();
+		params.put("status", message);
+		if (replyTo != null) {
+			params.put("in_reply_to_status_id", replyTo);
+		}
+		
 
 		return wasSuccessfullyTweeted;
 	}

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.codepath.apps.mysimpletweets.Adapter.TweetsRecycleAdapter;
 import com.codepath.apps.mysimpletweets.Interface.DismissComposeTweetListener;
+import com.codepath.apps.mysimpletweets.Interface.LaunchComposeTweetListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class TimelineActivity extends AppCompatActivity implements DismissComposeTweetListener {
+public class TimelineActivity extends AppCompatActivity implements DismissComposeTweetListener, LaunchComposeTweetListener {
 
     private TwitterClient client;
     private TweetsRecycleAdapter aTweetsAdapter;
@@ -71,8 +72,13 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
 
     private void displayComposeFragment() {
         ComposeFragment composeFragment = new ComposeFragment();
-        composeFragment.show(getFragmentManager(), "frament_compose");
+        composeFragment.show(getFragmentManager(), "fragment_compose");
     }
+    private void displayComposeFragmentFromAction(Tweet selectedTweet) {
+        ComposeFragment composeFragment = ComposeFragment.newInstance(selectedTweet);
+        composeFragment.show(getFragmentManager(), "fragment_compose_from_action");
+    }
+
 
     private void setUpRecycleView() {
         rvTweets = (RecyclerView) findViewById(R.id.tweetCardRecycleView);
@@ -132,5 +138,10 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
                 Log.d("DEBUG", "Failure" + errorResponse.toString());
             }
         });
+    }
+
+    @Override
+    public void onCompletedUserAction(Tweet selectedTweet) {
+        displayComposeFragmentFromAction(selectedTweet);
     }
 }

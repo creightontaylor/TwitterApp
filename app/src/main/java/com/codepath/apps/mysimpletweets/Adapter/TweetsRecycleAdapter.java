@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.apps.mysimpletweets.Interface.LaunchComposeTweetListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
@@ -97,7 +98,7 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         });
     }
 
-    private void setSubviews(ViewHolder viewHolder, Tweet tweet) {
+    private void setSubviews(ViewHolder viewHolder, final Tweet tweet) {
         ImageView ivAvatar = viewHolder.ivAvatar;
         ivAvatar.setImageResource(0);
         if (tweet.getUser().getProfileImageURL() != null) {
@@ -129,51 +130,38 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         reTweets.setText(String.valueOf(tweet.getRetweets()));
 
         Button reTweetButton = viewHolder.btnRetweet;
-        reTweetButton.setOnClickListener(retweetHandler);
+        reTweetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(thisContext, "Retweet button tapped", Toast.LENGTH_SHORT).show();
+                LaunchComposeTweetListener listener = (LaunchComposeTweetListener) thisContext;
+                listener.onCompletedUserAction(tweet);
+            }
+        });
 
         Button likeButton = viewHolder.btnLike;
-        likeButton.setOnClickListener(likeHandler);
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(thisContext, "Like button tapped", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         Button replyButton = viewHolder.btnReply;
-        replyButton.setOnClickListener(replyHandler);
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(thisContext, "Reply button tapped", Toast.LENGTH_SHORT).show();
+                LaunchComposeTweetListener listener = (LaunchComposeTweetListener) thisContext;
+                listener.onCompletedUserAction(tweet);
+            }
+        });
     }
 
-    View.OnClickListener retweetHandler = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(thisContext, "Retweet button tapped", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    View.OnClickListener likeHandler = new View.OnClickListener() {
-        public void onClick(View v) {
-//            if (userLikedTweet) {
-//                v.setBackgroundColor(ContextCompat.getColor(thisContext, android.R.color.transparent));
-//                userLikedTweet = false;
-//            } else {
-//                v.setBackgroundColor(ContextCompat.getColor(thisContext, android.R.color.holo_blue_bright));
-//                userLikedTweet = true;
-//            }
-        }
-    };
-
-    View.OnClickListener replyHandler = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(thisContext, "Reply button tapped", Toast.LENGTH_SHORT).show();
-        }
-    };
 
     private String getRelativeTimeAgo(String originalTimeStamp) {
-//        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-//        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
-//        sf.setLenient(true);
-//
-//        String relativeDate = "";
-//        try {
-//            long dateMillis = sf.parse(originalTimeStamp).getTime();
-//            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
         sf.setLenient(true);

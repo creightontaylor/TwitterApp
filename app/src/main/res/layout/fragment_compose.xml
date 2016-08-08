@@ -44,9 +44,9 @@
                 android:layout_alignEnd="@+id/tvScreenName" />
 
             <Button
+                style="@style/closeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Close"
                 android:id="@+id/btnDismiss"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -59,7 +59,9 @@
                 android:layout_below="@+id/ivProfileImage"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:hint="@string/composeHint" />
+                android:hint="@string/composeHint"
+                android:gravity="top"
+                android:inputType="textMultiLine"/>
         </RelativeLayout>
 
         <LinearLayout

@@ -90,24 +90,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="bottom|right"
-            android:background="@color/cardview_light_background"
             >
 
             <Button
-                style="?android:attr/buttonStyleSmall"
+                style="@style/cardTweetReplyButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnReply"
-                android:src="@drawable/reply"/>
+                android:id="@+id/btnReply"/>
 
             <Button
-                style="?android:attr/buttonStyleSmall"
+                style="@style/cardTweetLikeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnLike"
-                android:layout_marginLeft="80dp"
-                android:src="@drawable/star"
-                />
+                android:layout_marginLeft="35dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -116,12 +112,11 @@
                 android:id="@+id/tvLikes" />
 
             <Button
-                style="?android:attr/buttonStyleSmall"
+                style="@style/cardTweetRetweetButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnRetweet"
-                android:layout_marginLeft="45dp"
-                android:src="@drawable/retweet"
+                android:layout_marginLeft="20dp"
                 />
 
             <TextView

@@ -9,6 +9,7 @@ android {
         applicationId "com.codepath.apps.restclienttemplate"
         minSdkVersion 16
         targetSdkVersion 24
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -29,11 +30,11 @@ dependencies {
     compile('com.codepath.libraries:android-oauth-handler:1.0.0@aar') {
         transitive = true
     }
-    // Picasso for remote image loading
-    // Android Async Http for sending async network requests
-    
 
-    // ActiveAndroid for simple persistence with an ORM
+    compile "com.android.support:support-vector-drawable" // VectorDrawableCompat
+    compile "com.android.support:animated-vector-drawable" // AnimatedVectorDrawableCompat
+    compile "com.android.support:support-annotations"
+
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'jp.wasabeef:picasso-transformations:2.1.0'

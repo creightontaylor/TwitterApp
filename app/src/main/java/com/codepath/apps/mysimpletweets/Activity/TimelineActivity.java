@@ -38,9 +38,8 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         setContentView(R.layout.activity_timeline);
 
         client = TwitterApplication.getRestClient();
-        populateTimeline(1);
+        populateTimeline("since_id", 1);
         setUpRecycleView();
-
 
     }
 
@@ -71,7 +70,7 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                populateTimeline(totalItemsCount);
+                populateTimeline("max_id", totalItemsCount);
             }
         });
 
@@ -80,8 +79,8 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         rvTweets.setAdapter(aTweetsAdapter);
     }
 
-    private void populateTimeline(int sinceID) {
-        client.getHomeTimeline(sinceID, new JsonHttpResponseHandler() {
+    private void populateTimeline(String fetchTag, int sinceID) {
+        client.getHomeTimeline(fetchTag, sinceID, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -102,7 +101,7 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         client.composeTweet(input, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                populateTimeline(1);
+                populateTimeline("since_id", 1);
             }
 
             @Override

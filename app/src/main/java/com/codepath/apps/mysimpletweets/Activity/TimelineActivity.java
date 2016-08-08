@@ -29,6 +29,13 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
     private TweetsRecycleAdapter aTweetsAdapter;
     private ArrayList<Tweet> tweets;
     private RecyclerView rvTweets;
+    private long benchmarkID;
+
+
+    public void setBenchmarkID(ArrayList<Tweet> list) {
+        Tweet lastTweet = list.get(list.size() - 1);
+        this.benchmarkID = lastTweet.getUnuqueID();
+    }
 
     public TimelineActivity() {}
 
@@ -70,7 +77,7 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                populateTimeline("max_id", totalItemsCount);
+                populateTimeline("max_id", benchmarkID);
             }
         });
 
@@ -79,12 +86,13 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         rvTweets.setAdapter(aTweetsAdapter);
     }
 
-    private void populateTimeline(String fetchTag, int sinceID) {
+    private void populateTimeline(String fetchTag, long sinceID) {
         client.getHomeTimeline(fetchTag, sinceID, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 int currentSIze = aTweetsAdapter.getItemCount();
+                setBenchmarkID(Tweet.fromJSONarray(response));
                 tweets.addAll(Tweet.fromJSONarray(response));
                 aTweetsAdapter.notifyItemRangeInserted(currentSIze, tweets.size() - 1);
                 Log.d("DEBUG", "Adapter Array contents size =" + tweets.size());

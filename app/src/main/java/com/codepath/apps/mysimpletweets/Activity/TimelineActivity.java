@@ -101,7 +101,7 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
                 if (fetchTag == SINCE_ID) {
                     tweets.addAll(0, list);
                     aTweetsAdapter.notifyItemRangeInserted(0, list.size() - 1);
-                    staggeredGridLayoutManager.scrollToPositionWithOffset(1, 20);
+                    staggeredGridLayoutManager.scrollToPosition(0);
                 } else {
                     tweets.addAll(list);
                     aTweetsAdapter.notifyItemRangeInserted(aTweetsAdapter.getItemCount(), tweets.size() - 1);

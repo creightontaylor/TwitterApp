@@ -29,14 +29,18 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
     private TweetsRecycleAdapter aTweetsAdapter;
     private ArrayList<Tweet> tweets;
     private RecyclerView rvTweets;
-    private long benchmarkID;
+    private long maxIDFromLatestTweetFetch;
+    private long sinceIDFromLatestTweetFetch = 1;
+    private final String SINCE_ID = "since_id";
+    StaggeredGridLayoutManager staggeredGridLayoutManager;
 
-
-    public void setBenchmarkID(ArrayList<Tweet> list) {
-        Tweet lastTweet = list.get(list.size() - 1);
-        this.benchmarkID = lastTweet.getUnuqueID();
+    public void setMaxIDFromLatestTweetFetch(Tweet lastTweet) {
+        this.maxIDFromLatestTweetFetch = lastTweet.getUnuqueID();
     }
 
+    public void setSinceIDFromLatestTweetFetch(Tweet firstTweet) {
+        this.sinceIDFromLatestTweetFetch= firstTweet.getUnuqueID();
+    }
     public TimelineActivity() {}
 
     @Override
@@ -45,7 +49,7 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         setContentView(R.layout.activity_timeline);
 
         client = TwitterApplication.getRestClient();
-        populateTimeline("since_id", 1);
+        populateTimeline(SINCE_ID, sinceIDFromLatestTweetFetch);
         setUpRecycleView();
 
     }
@@ -72,12 +76,12 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
 
     private void setUpRecycleView() {
         rvTweets = (RecyclerView) findViewById(R.id.tweetCardRecycleView);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rvTweets.setLayoutManager(staggeredGridLayoutManager);
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                populateTimeline("max_id", benchmarkID);
+                populateTimeline("max_id", maxIDFromLatestTweetFetch);
             }
         });
 
@@ -86,16 +90,22 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         rvTweets.setAdapter(aTweetsAdapter);
     }
 
-    private void populateTimeline(String fetchTag, long sinceID) {
+    private void populateTimeline(final String fetchTag, long sinceID) {
         client.getHomeTimeline(fetchTag, sinceID, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                int currentSIze = aTweetsAdapter.getItemCount();
-                setBenchmarkID(Tweet.fromJSONarray(response));
-                tweets.addAll(Tweet.fromJSONarray(response));
-                aTweetsAdapter.notifyItemRangeInserted(currentSIze, tweets.size() - 1);
-                Log.d("DEBUG", "Adapter Array contents size =" + tweets.size());
+                ArrayList<Tweet> list = Tweet.fromJSONarray(response);
+                setFetchIDs(list);
+
+                if (fetchTag == SINCE_ID) {
+                    tweets.addAll(0, list);
+                    aTweetsAdapter.notifyItemRangeInserted(0, list.size() - 1);
+                    staggeredGridLayoutManager.scrollToPositionWithOffset(1, 20);
+                } else {
+                    tweets.addAll(list);
+                    aTweetsAdapter.notifyItemRangeInserted(aTweetsAdapter.getItemCount(), tweets.size() - 1);
+                }
             }
 
             @Override
@@ -105,11 +115,16 @@ public class TimelineActivity extends AppCompatActivity implements DismissCompos
         });
     }
 
+    private void setFetchIDs(ArrayList<Tweet> list) {
+        setMaxIDFromLatestTweetFetch(list.get(list.size() - 1));
+        setSinceIDFromLatestTweetFetch(list.get(0));
+    }
+
     public void onCompleteUserInput(String input) {
         client.composeTweet(input, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                populateTimeline("since_id", 1);
+                populateTimeline(SINCE_ID, sinceIDFromLatestTweetFetch);
             }
 
             @Override

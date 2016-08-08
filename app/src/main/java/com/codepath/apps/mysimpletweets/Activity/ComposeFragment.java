@@ -18,14 +18,13 @@ import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.squareup.picasso.Picasso;
 
-import org.parceler.Parcels;
-
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ComposeFragment extends DialogFragment {
     private EditText etComposeBody;
     private User currentUser;
     private TextView tvCharacterCount;
+    Tweet selectedTweet;
 
     public ComposeFragment() {
         // Required empty public constructor
@@ -33,9 +32,7 @@ public class ComposeFragment extends DialogFragment {
 
     public static ComposeFragment newInstance(Tweet selectedTweet) {
         ComposeFragment frag = new ComposeFragment();
-        Bundle args = new Bundle();
-        args.putParcelable("selectedTweet", Parcels.wrap(selectedTweet));
-        frag.setArguments(args);
+        frag.selectedTweet = selectedTweet;
         return frag;
     }
 
@@ -55,9 +52,8 @@ public class ComposeFragment extends DialogFragment {
 
         tvCharacterCount = (TextView) view.findViewById(R.id.tvCharacterCount);
 
-        Tweet selectedTweet = (Tweet) Parcels.unwrap(getArguments().getParcelable("selectedTweet"));
         if (selectedTweet != null) {
-            setupRetweet(view, selectedTweet);
+            setupRetweet(view);
         }
 
         Button btnTweet = (Button) view.findViewById(R.id.btnTweet);
@@ -72,7 +68,7 @@ public class ComposeFragment extends DialogFragment {
         });
     }
 
-    private void setupRetweet(View view, Tweet selectedTweet) {
+    private void setupRetweet(View view) {
         etComposeBody.setText(selectedTweet.getBody());
 
         ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);

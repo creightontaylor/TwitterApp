@@ -98,6 +98,10 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         });
     }
 
+    public void addAll(ArrayList<Tweet> tweets) {
+
+    }
+
     private void setSubviews(ViewHolder viewHolder, final Tweet tweet) {
         ImageView ivAvatar = viewHolder.ivAvatar;
         ivAvatar.setImageResource(0);

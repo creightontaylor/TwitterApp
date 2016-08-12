@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.codepath.apps.mysimpletweets.Interface.DismissComposeTweetListener;
+import com.codepath.apps.mysimpletweets.StrategyPattern.HomeTimelineScrolling;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -18,12 +20,13 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by andrj148 on 8/12/16.
  */
-public class HomeTimelineFragment extends TweetsListFragment {
+public class HomeTimelineFragment extends TweetsListFragment implements DismissComposeTweetListener {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         populateTimeline(SINCE_ID, sinceIDFromLatestTweetFetch);
+        infiniteScrollListenerType = new HomeTimelineScrolling();
      }
 
     private void setFetchIDs(ArrayList<Tweet> list) {
@@ -56,8 +59,17 @@ public class HomeTimelineFragment extends TweetsListFragment {
         });
     }
 
-    @Override
-    public void userScrolledPastBenchmark() {
-        populateTimeline("max_id", maxIDFromLatestTweetFetch);
+    public void onCompleteUserInput(String input) {
+        TwitterApplication.getRestClient().composeTweet(input, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                populateTimeline(SINCE_ID, sinceIDFromLatestTweetFetch);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", "Failure" + errorResponse.toString());
+            }
+        });
     }
 }

@@ -24,6 +24,7 @@ public class TweetsListFragment extends Fragment {
     public long maxIDFromLatestTweetFetch;
     public long sinceIDFromLatestTweetFetch = 1;
     public static final String SINCE_ID = "since_id";
+    public InfiniteScrollListener infiniteScrollListenerType;
 
     private TweetsRecycleAdapter aTweetsAdapter;
     private ArrayList<Tweet> tweets;
@@ -52,7 +53,7 @@ public class TweetsListFragment extends Fragment {
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                userScrolledPastBenchmark();
+                infiniteScrollListenerType.userScrolledPastBenchmark(TweetsListFragment.this);
             }
         });
     }

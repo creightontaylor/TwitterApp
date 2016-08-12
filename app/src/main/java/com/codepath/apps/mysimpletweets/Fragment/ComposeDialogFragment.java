@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets.Activity;
+package com.codepath.apps.mysimpletweets.Fragment;
 
 
 import android.app.DialogFragment;
@@ -20,18 +20,18 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
-public class ComposeFragment extends DialogFragment {
+public class ComposeDialogFragment extends DialogFragment {
     private EditText etComposeBody;
     private User currentUser;
     private TextView tvCharacterCount;
     Tweet selectedTweet;
 
-    public ComposeFragment() {
+    public ComposeDialogFragment() {
         // Required empty public constructor
     }
 
-    public static ComposeFragment newInstance(Tweet selectedTweet) {
-        ComposeFragment frag = new ComposeFragment();
+    public static ComposeDialogFragment newInstance(Tweet selectedTweet) {
+        ComposeDialogFragment frag = new ComposeDialogFragment();
         frag.selectedTweet = selectedTweet;
         return frag;
     }

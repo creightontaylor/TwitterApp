@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.codepath.apps.mysimpletweets.Activity.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.mysimpletweets.Adapter.TweetsRecycleAdapter;
+import com.codepath.apps.mysimpletweets.Interface.InfiniteScrollListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 
@@ -20,13 +21,14 @@ import java.util.ArrayList;
  * Created by andrj148 on 8/11/16.
  */
 public class TweetsListFragment extends Fragment {
+    public long maxIDFromLatestTweetFetch;
+    public long sinceIDFromLatestTweetFetch = 1;
+    public static final String SINCE_ID = "since_id";
+
     private TweetsRecycleAdapter aTweetsAdapter;
     private ArrayList<Tweet> tweets;
     private RecyclerView rvTweets;
-    private long maxIDFromLatestTweetFetch;
-    private long sinceIDFromLatestTweetFetch = 1;
-    private final String SINCE_ID = "since_id";
-    StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     @Nullable
     @Override
@@ -43,13 +45,14 @@ public class TweetsListFragment extends Fragment {
     }
 
     private void setUpRecycleView() {
-        rvTweets = (RecyclerView) findViewById(R.id.tweetCardRecycleView);
+        rvTweets = (RecyclerView) getView().findViewById(R.id.tweetCardRecycleView);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rvTweets.setLayoutManager(staggeredGridLayoutManager);
+        rvTweets.setAdapter(aTweetsAdapter);
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                populateTimeline("max_id", maxIDFromLatestTweetFetch);
+                userScrolledPastBenchmark();
             }
         });
     }
@@ -57,13 +60,10 @@ public class TweetsListFragment extends Fragment {
     private void setupCollection() {
         tweets = new ArrayList<>();
         aTweetsAdapter = new TweetsRecycleAdapter(tweets);
-        rvTweets.setAdapter(aTweetsAdapter);
     }
 
     public void addAll (ArrayList<Tweet> list, String fetchTag) {
-        setFetchIDs(list);
-
-        if (fetchTag == SINCE_ID) {
+        if (fetchTag == HomeTimelineFragment.SINCE_ID) {
             tweets.addAll(0, list);
             aTweetsAdapter.notifyItemRangeInserted(0, list.size() - 1);
             staggeredGridLayoutManager.scrollToPosition(0);
@@ -73,16 +73,4 @@ public class TweetsListFragment extends Fragment {
         }
     }
 
-    private void setFetchIDs(ArrayList<Tweet> list) {
-        setMaxIDFromLatestTweetFetch(list.get(list.size() - 1));
-        setSinceIDFromLatestTweetFetch(list.get(0));
-    }
-
-    public void setMaxIDFromLatestTweetFetch(Tweet lastTweet) {
-        this.maxIDFromLatestTweetFetch = lastTweet.getUnuqueID();
-    }
-
-    public void setSinceIDFromLatestTweetFetch(Tweet firstTweet) {
-        this.sinceIDFromLatestTweetFetch= firstTweet.getUnuqueID();
-    }
 }

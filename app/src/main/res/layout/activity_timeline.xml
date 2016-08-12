@@ -9,7 +9,7 @@
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="com.codepath.apps.mysimpletweets.Fragment.TweetsListFragment"
+        android:name="com.codepath.apps.mysimpletweets.Fragment.HomeTimelineFragment"
         android:id="@+id/fragment_timeline"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

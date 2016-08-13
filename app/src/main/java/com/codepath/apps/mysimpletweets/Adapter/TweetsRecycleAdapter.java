@@ -51,7 +51,7 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
             cardView = cv;
             findSubViews(cv);
         }
-//should I pass array of tweets into wiewholder instead of adapter?
+//should I pass array of tweets into viewholder instead of adapter?
         public void findSubViews(CardView cv) {
             ivAvatar = (ImageView) cv.findViewById(R.id.ivAvatar);
             ivBodyPicture = (ImageView) cv.findViewById(R.id.ivBodyPicture);
@@ -96,10 +96,6 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
                 Toast.makeText(thisContext, "Tweet Cardview tapped", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void addAll(ArrayList<Tweet> tweets) {
-
     }
 
     private void setSubviews(ViewHolder viewHolder, final Tweet tweet) {

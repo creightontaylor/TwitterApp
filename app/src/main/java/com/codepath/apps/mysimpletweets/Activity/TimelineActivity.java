@@ -6,11 +6,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.apps.mysimpletweets.Fragment.ComposeDialogFragment;
+import com.codepath.apps.mysimpletweets.Fragment.TweetsListFragment;
+import com.codepath.apps.mysimpletweets.Interface.DismissComposeTweetListener;
 import com.codepath.apps.mysimpletweets.Interface.LaunchComposeTweetListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 
-public class TimelineActivity extends AppCompatActivity implements LaunchComposeTweetListener {
+public class TimelineActivity extends AppCompatActivity implements LaunchComposeTweetListener, DismissComposeTweetListener {
 
 
     public TimelineActivity() {}
@@ -48,5 +50,17 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     @Override
     public void onCompletedUserAction(Tweet selectedTweet) {
         displayComposeFragmentFromAction(selectedTweet);
+    }
+
+    @Override
+    public void onCompleteUserInput(String input) {
+        //navigate to current fragment and show top
+        TweetsListFragment fragmentContainer = (TweetsListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_timeline);
+        if (fragmentContainer != null) {
+            fragmentContainer.refreshTweetsTimelineType.refreshTimeLineAndNavigateToTopTweet(fragmentContainer);
+        } else {
+
+        }
+
     }
 }

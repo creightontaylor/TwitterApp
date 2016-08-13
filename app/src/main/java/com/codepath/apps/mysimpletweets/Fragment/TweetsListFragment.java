@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.codepath.apps.mysimpletweets.Activity.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.mysimpletweets.Adapter.TweetsRecycleAdapter;
 import com.codepath.apps.mysimpletweets.Interface.InfiniteScrollListener;
+import com.codepath.apps.mysimpletweets.Interface.RefreshTweetsTimeline;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 
@@ -25,6 +26,7 @@ public class TweetsListFragment extends Fragment {
     public long sinceIDFromLatestTweetFetch = 1;
     public static final String SINCE_ID = "since_id";
     public InfiniteScrollListener infiniteScrollListenerType;
+    public RefreshTweetsTimeline refreshTweetsTimelineType;
 
     private TweetsRecycleAdapter aTweetsAdapter;
     private ArrayList<Tweet> tweets;
@@ -64,7 +66,7 @@ public class TweetsListFragment extends Fragment {
     }
 
     public void addAll (ArrayList<Tweet> list, String fetchTag) {
-        if (fetchTag == HomeTimelineFragment.SINCE_ID) {
+        if (fetchTag == SINCE_ID) {
             tweets.addAll(0, list);
             aTweetsAdapter.notifyItemRangeInserted(0, list.size() - 1);
             staggeredGridLayoutManager.scrollToPosition(0);

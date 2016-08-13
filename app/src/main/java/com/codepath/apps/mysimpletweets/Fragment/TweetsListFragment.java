@@ -35,7 +35,7 @@ public class TweetsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tweets, container, false);
-        setUpRecycleView();
+        setUpRecycleView(v);
         return v;
     }
 
@@ -45,8 +45,8 @@ public class TweetsListFragment extends Fragment {
         setupCollection();
     }
 
-    private void setUpRecycleView() {
-        rvTweets = (RecyclerView) getView().findViewById(R.id.tweetCardRecycleView);
+    private void setUpRecycleView(View v) {
+        rvTweets = (RecyclerView) v.findViewById(R.id.tweetCardRecycleView);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rvTweets.setLayoutManager(staggeredGridLayoutManager);
         rvTweets.setAdapter(aTweetsAdapter);

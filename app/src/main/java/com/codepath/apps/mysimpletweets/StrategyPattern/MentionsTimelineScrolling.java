@@ -11,6 +11,6 @@ public class MentionsTimelineScrolling implements InfiniteScrollListener {
     @Override
     public void userScrolledPastBenchmark(TweetsListFragment tweetsListFragment) {
         MentionsTimelineFragment mentionsTimelineFragment = (MentionsTimelineFragment) tweetsListFragment;
-
+        mentionsTimelineFragment.populateMentionsTimeline();
     }
 }

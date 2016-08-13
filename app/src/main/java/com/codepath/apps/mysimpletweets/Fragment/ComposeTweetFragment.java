@@ -20,25 +20,5 @@ import cz.msebera.android.httpclient.Header;
 public class ComposeTweetFragment extends TweetsListFragment  {
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        infiniteScrollListenerType = new HomeTimelineScrolling();
-        populateMentionsTimeline();
-    }
-
-    public void populateMentionsTimeline() {
-        TwitterApplication.getRestClient().getMentionsTimeline(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                addAll(Tweet.fromJSONarray(json), null);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("DEBUG", errorResponse.toString());
-            }
-        });
-    }
 
 }

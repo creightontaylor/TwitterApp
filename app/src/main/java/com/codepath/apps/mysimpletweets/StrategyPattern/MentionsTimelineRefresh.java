@@ -11,6 +11,6 @@ public class MentionsTimelineRefresh implements RefreshTweetsTimeline {
     @Override
     public void refreshTimeLineAndNavigateToTopTweet(TweetsListFragment tweetsListFragment) {
         MentionsTimelineFragment mentionsTimelineFragment = (MentionsTimelineFragment) tweetsListFragment;
-        mentionsTimelineFragment.populateMentionsTimeline();
+        mentionsTimelineFragment.populateMentionsTimeline(mentionsTimelineFragment.SINCE_ID, mentionsTimelineFragment.sinceIDFromLatestTweetFetch);
     }
 }

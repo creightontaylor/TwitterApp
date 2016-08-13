@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.codepath.apps.mysimpletweets.Interface.DismissComposeTweetListener;
+import com.codepath.apps.mysimpletweets.StrategyPattern.HomeTimelineRefresh;
 import com.codepath.apps.mysimpletweets.StrategyPattern.HomeTimelineScrolling;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.models.Tweet;
@@ -20,26 +20,18 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by andrj148 on 8/12/16.
  */
-public class HomeTimelineFragment extends TweetsListFragment implements DismissComposeTweetListener {
+public class HomeTimelineFragment extends TweetsListFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         populateTimeline(SINCE_ID, sinceIDFromLatestTweetFetch);
-        infiniteScrollListenerType = new HomeTimelineScrolling();
+        setStrategyPatternTypes();
      }
 
-    private void setFetchIDs(ArrayList<Tweet> list) {
-        setMaxIDFromLatestTweetFetch(list.get(list.size() - 1));
-        setSinceIDFromLatestTweetFetch(list.get(0));
-    }
-
-    public void setMaxIDFromLatestTweetFetch(Tweet lastTweet) {
-        this.maxIDFromLatestTweetFetch = lastTweet.getUnuqueID();
-    }
-
-    public void setSinceIDFromLatestTweetFetch(Tweet firstTweet) {
-        this.sinceIDFromLatestTweetFetch= firstTweet.getUnuqueID();
+    private void setStrategyPatternTypes() {
+        infiniteScrollListenerType = new HomeTimelineScrolling();
+        refreshTweetsTimelineType = new HomeTimelineRefresh();
     }
 
     public void populateTimeline(final String fetchTag, long sinceID) {
@@ -55,20 +47,6 @@ public class HomeTimelineFragment extends TweetsListFragment implements DismissC
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.d("debug", "Failure" + errorResponse.toString());
-            }
-        });
-    }
-
-    public void onCompleteUserInput(String input) {
-        TwitterApplication.getRestClient().composeTweet(input, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                populateTimeline(SINCE_ID, sinceIDFromLatestTweetFetch);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("DEBUG", "Failure" + errorResponse.toString());
             }
         });
     }

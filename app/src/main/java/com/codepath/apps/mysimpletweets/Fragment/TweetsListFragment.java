@@ -76,4 +76,16 @@ public class TweetsListFragment extends Fragment {
         }
     }
 
+    public void setFetchIDs(ArrayList<Tweet> list) {
+        setMaxIDFromLatestTweetFetch(list.get(list.size() - 1));
+        setSinceIDFromLatestTweetFetch(list.get(0));
+    }
+
+    public void setMaxIDFromLatestTweetFetch(Tweet lastTweet) {
+        this.maxIDFromLatestTweetFetch = lastTweet.getUnuqueID();
+    }
+
+    public void setSinceIDFromLatestTweetFetch(Tweet firstTweet) {
+        this.sinceIDFromLatestTweetFetch= firstTweet.getUnuqueID();
+    }
 }

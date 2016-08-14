@@ -96,6 +96,10 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
         });
     }
 
+    public void onProfileView(MenuItem item) {
+        
+    }
+
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
         private String tabTitles[] = {"Home", "Mentions"};
         private Context currentContext;

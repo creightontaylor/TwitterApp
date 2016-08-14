@@ -18,10 +18,10 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by andrj148 on 8/13/16.
  */
-public class UserTimelineFragment extends TweetsListFragment {
+public class ProfileTimelineFragment extends TweetsListFragment {
 
-    public static UserTimelineFragment newInstance(String screen_name) {
-        UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
+    public static ProfileTimelineFragment newInstance(String screen_name) {
+        ProfileTimelineFragment userTimelineFragment = new ProfileTimelineFragment();
         Bundle args = new Bundle();
         args.putString("screen_name", screen_name);
         userTimelineFragment.setArguments(args);

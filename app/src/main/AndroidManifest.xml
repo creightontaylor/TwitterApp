@@ -41,7 +41,8 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.TimelineActivity"></activity>
+        <activity android:name=".Activity.TimelineActivity" />
+        <activity android:name=".Activity.ProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.codepath.apps.mysimpletweets.Activity.EndlessRecyclerViewScrollListener;
+import com.codepath.apps.mysimpletweets.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.mysimpletweets.Adapter.TweetsRecycleAdapter;
 import com.codepath.apps.mysimpletweets.Interface.InfiniteScrollListener;
 import com.codepath.apps.mysimpletweets.Interface.RefreshTweetsTimeline;

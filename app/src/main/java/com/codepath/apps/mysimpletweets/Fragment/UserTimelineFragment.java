@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.codepath.apps.mysimpletweets.StrategyPattern.MentionsTimelineRefresh;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.models.Tweet;
-import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -22,20 +20,30 @@ import cz.msebera.android.httpclient.Header;
  */
 public class UserTimelineFragment extends TweetsListFragment {
 
+    public static UserTimelineFragment newInstance(String screen_name) {
+        UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
+        Bundle args = new Bundle();
+        args.putString("screen_name", screen_name);
+        userTimelineFragment.setArguments(args);
+
+        return userTimelineFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        populateUserTimeline(SINCE_ID, sinceIDFromLatestTweetFetch);
+        String screenName = getArguments().getString("screen_name");
+        populateUserTimeline(screenName, SINCE_ID, sinceIDFromLatestTweetFetch);
         setStrategyPatternTypes();
     }
 
     private void setStrategyPatternTypes() {
-        infiniteScrollListenerType = new UserTimelineScrolling();
-        refreshTweetsTimelineType = new UserTimelineRefresh();
+//        infiniteScrollListenerType = new UserTimelineScrolling();
+//        refreshTweetsTimelineType = new UserTimelineRefresh();
     }
 
-    public void populateUserTimeline(final String fetchTag, long sinceID) {
-        TwitterApplication.getRestClient().getUserTimeline(null, fetchTag, sinceID, new JsonHttpResponseHandler() {
+    public void populateUserTimeline(String screenName, final String fetchTag, long sinceID) {
+        TwitterApplication.getRestClient().getUserTimeline(screenName, fetchTag, sinceID, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 ArrayList<Tweet> list = Tweet.fromJSONarray(json);

@@ -1,8 +1,15 @@
 package com.codepath.apps.mysimpletweets.models;
 
+import android.content.Context;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
+
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 /**
  * Created by andrj148 on 8/4/16.
@@ -66,4 +73,8 @@ public class User {
         return user;
     }
 
+    public static void setProfileImageWithRoundedCorners(Context context, String profileURL, ImageView ivProfileImage) {
+        Picasso.with(context).load(profileURL).transform(new RoundedCornersTransformation(10, 0)).into(ivProfileImage);
+
+    }
 }

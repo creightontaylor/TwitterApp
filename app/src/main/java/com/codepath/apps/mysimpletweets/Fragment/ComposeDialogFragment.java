@@ -16,9 +16,6 @@ import com.codepath.apps.mysimpletweets.Interface.DismissComposeTweetListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
-import com.squareup.picasso.Picasso;
-
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ComposeDialogFragment extends DialogFragment {
     private EditText etComposeBody;
@@ -30,9 +27,12 @@ public class ComposeDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static ComposeDialogFragment newInstance(Tweet selectedTweet) {
+    public static ComposeDialogFragment newInstance(Tweet selectedTweet, User user) {
         ComposeDialogFragment frag = new ComposeDialogFragment();
-        frag.selectedTweet = selectedTweet;
+        if (selectedTweet != null) {
+            frag.selectedTweet = selectedTweet;
+        }
+        frag.currentUser = user;
         return frag;
     }
 
@@ -54,6 +54,8 @@ public class ComposeDialogFragment extends DialogFragment {
 
         if (selectedTweet != null) {
             setupRetweet(view);
+        } else {
+            setupUserTweet(view);
         }
 
         Button btnTweet = (Button) view.findViewById(R.id.btnTweet);
@@ -68,12 +70,22 @@ public class ComposeDialogFragment extends DialogFragment {
         });
     }
 
+    private void setupUserTweet(View view) {
+        ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+        User.setProfileImageWithRoundedCorners(getActivity(), currentUser.getProfileImageURL(), ivProfileImage);
+
+        TextView tvHandle = (TextView) view.findViewById(R.id.tvScreenName);
+        tvHandle.setText(currentUser.getScreeName());
+
+        TextView tvScreenName = (TextView) view.findViewById(R.id.tvScreenName);
+        tvScreenName.setText(currentUser.getName());
+    }
+
     private void setupRetweet(View view) {
         etComposeBody.setText(selectedTweet.getBody());
 
         ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
-        Picasso.with(getActivity()).load(selectedTweet.getUser().getProfileImageURL()).transform(new RoundedCornersTransformation(10, 0)).into(ivProfileImage);
-
+        User.setProfileImageWithRoundedCorners(getActivity(), selectedTweet.getUser().getProfileImageURL(), ivProfileImage);
 
         TextView tvHandle = (TextView) view.findViewById(R.id.tvScreenName);
         tvHandle.setText(selectedTweet.getUser().getScreeName());

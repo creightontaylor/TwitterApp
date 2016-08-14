@@ -22,6 +22,7 @@ import com.codepath.apps.mysimpletweets.Interface.LaunchComposeTweetListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
@@ -31,7 +32,7 @@ import cz.msebera.android.httpclient.Header;
 public class TimelineActivity extends AppCompatActivity implements LaunchComposeTweetListener, DismissComposeTweetListener {
     private TweetsPagerAdapter tweetsPagerAdapter;
     public int currentFragmentPosition = 0;
-
+    private User user;
     public TimelineActivity() {}
 
     @Override
@@ -40,6 +41,7 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
         setContentView(R.layout.activity_timeline);
 
         setupViewPager();
+        getUserInfo();
     }
 
     @Override
@@ -51,7 +53,7 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.composeTweet) {
-            displayComposeFragment();
+            displayComposeFragmentFromAction(null);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -67,13 +69,18 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
 
     }
 
-    private void displayComposeFragment() {
-        ComposeDialogFragment composeDialogFragment = new ComposeDialogFragment();
-        composeDialogFragment.show(getFragmentManager(), "fragment_compose");
-    }
     private void displayComposeFragmentFromAction(Tweet selectedTweet) {
-        ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance(selectedTweet);
+        ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance(selectedTweet, user);
         composeDialogFragment.show(getFragmentManager(), "fragment_compose_from_action");
+    }
+
+    private void getUserInfo() {
+        TwitterApplication.getRestClient().getUserInfo(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                user = User.fromJSON(response);
+            }
+        });
     }
 
     @Override

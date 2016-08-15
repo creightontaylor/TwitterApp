@@ -1,6 +1,5 @@
 package com.codepath.apps.mysimpletweets.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -114,12 +113,11 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     public void onProfileView(MenuItem item) {
         Intent navigateToUserProfile = new Intent(this, ProfileActivity.class);
         navigateToUserProfile.putExtra("user", Parcels.wrap(user));
-//        startActivity(navigateToUserProfile);
+        startActivity(navigateToUserProfile);
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
         private String tabTitles[] = {"Home", "Mentions"};
-        private Context currentContext;
 
         public TweetsPagerAdapter(FragmentManager fm) {
             super(fm);

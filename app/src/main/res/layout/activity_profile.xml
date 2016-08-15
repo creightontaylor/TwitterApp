@@ -12,11 +12,10 @@
         android:layout_weight="2"
         android:id="@+id/fragment_header_container" />
 
-    <fragment
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:name="com.codepath.apps.mysimpletweets.Fragment.ProfileTimelineFragment"
         android:id="@+id/fragment_user_timeline"
         />
 

@@ -72,7 +72,7 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 	public void getUserTimeline(String screenName, String fetchTag, long sinceID, AsyncHttpResponseHandler handler) {
-		String apiURL = getApiUrl("statuses/mentions_timeline.json");
+		String apiURL = getApiUrl("statuses/user_timeline.json");
 
 		RequestParams params = new RequestParams();
 		params.put("count", 25);

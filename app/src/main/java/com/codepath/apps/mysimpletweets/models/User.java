@@ -64,7 +64,7 @@ public class User {
             user.location = jsonObject.getString("location");
             user.followers = jsonObject.getInt("followers_count");
             user.following = jsonObject.getInt("following");
-            user.description = jsonObject.getString("text");
+            user.description = jsonObject.getString("description");
             user.backgroundImageURL = jsonObject.getString("profile_background_image_url");
         } catch (JSONException e) {
             e.printStackTrace();

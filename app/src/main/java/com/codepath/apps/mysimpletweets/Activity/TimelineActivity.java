@@ -18,6 +18,7 @@ import com.codepath.apps.mysimpletweets.Fragment.MentionsTimelineFragment;
 import com.codepath.apps.mysimpletweets.Fragment.TweetsListFragment;
 import com.codepath.apps.mysimpletweets.Interface.DismissComposeTweetListener;
 import com.codepath.apps.mysimpletweets.Interface.LaunchComposeTweetListener;
+import com.codepath.apps.mysimpletweets.Interface.NavigateToUserProfileListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.models.Tweet;
@@ -30,7 +31,7 @@ import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
-public class TimelineActivity extends AppCompatActivity implements LaunchComposeTweetListener, DismissComposeTweetListener {
+public class TimelineActivity extends AppCompatActivity implements LaunchComposeTweetListener, DismissComposeTweetListener, NavigateToUserProfileListener {
     private TweetsPagerAdapter tweetsPagerAdapter;
     public int currentFragmentPosition = 0;
     private User user;
@@ -89,6 +90,12 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
         });
     }
 
+    private void navigateTOUserProfileActivity(User selectedUser) {
+        Intent navigateToUserProfile = new Intent(this, ProfileActivity.class);
+        navigateToUserProfile.putExtra("user", Parcels.wrap(selectedUser));
+        startActivity(navigateToUserProfile);
+    }
+
     @Override
     public void onCompletedUserAction(Tweet selectedTweet, String buttonType) {
         displayComposeFragmentFromAction(selectedTweet, buttonType);
@@ -111,9 +118,12 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     }
 
     public void onProfileView(MenuItem item) {
-        Intent navigateToUserProfile = new Intent(this, ProfileActivity.class);
-        navigateToUserProfile.putExtra("user", Parcels.wrap(user));
-        startActivity(navigateToUserProfile);
+        navigateTOUserProfileActivity(user);
+    }
+
+    @Override
+    public void onCardViewAvatarImageTapped(User selectedUser) {
+        navigateTOUserProfileActivity(selectedUser);
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {

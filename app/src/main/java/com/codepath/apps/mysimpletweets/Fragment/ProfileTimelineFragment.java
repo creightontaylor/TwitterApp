@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.codepath.apps.mysimpletweets.StrategyPattern.ProfileTimelineRefresh;
+import com.codepath.apps.mysimpletweets.StrategyPattern.ProfileTimelineScrolling;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -20,6 +22,8 @@ import cz.msebera.android.httpclient.Header;
  */
 public class ProfileTimelineFragment extends TweetsListFragment {
 
+    public String screenName;
+
     public static ProfileTimelineFragment newInstance(String screen_name) {
         ProfileTimelineFragment userTimelineFragment = new ProfileTimelineFragment();
         Bundle args = new Bundle();
@@ -32,14 +36,14 @@ public class ProfileTimelineFragment extends TweetsListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String screenName = getArguments().getString("screen_name");
+        screenName = getArguments().getString("screen_name");
         populateUserTimeline(screenName, SINCE_ID, sinceIDFromLatestTweetFetch);
         setStrategyPatternTypes();
     }
 
     private void setStrategyPatternTypes() {
-//        infiniteScrollListenerType = new UserTimelineScrolling();
-//        refreshTweetsTimelineType = new UserTimelineRefresh();
+        infiniteScrollListenerType = new ProfileTimelineScrolling();
+        refreshTweetsTimelineType = new ProfileTimelineRefresh();
     }
 
     public void populateUserTimeline(String screenName, final String fetchTag, long sinceID) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.Interface.LaunchComposeTweetListener;
+import com.codepath.apps.mysimpletweets.Interface.NavigateToUserProfileListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
@@ -101,6 +102,13 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         ivAvatar.setImageResource(0);
         if (tweet.getUser().getProfileImageURL() != null) {
             setImageFor(ivAvatar, tweet.getUser().getProfileImageURL());
+            ivAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavigateToUserProfileListener listener = (NavigateToUserProfileListener) thisContext;
+                    listener.onCardViewAvatarImageTapped(tweet.getUser());
+                }
+            });
         }
 
         ImageView ivBodyImage = viewHolder.ivBodyPicture;

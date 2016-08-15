@@ -19,6 +19,13 @@ import com.squareup.picasso.Picasso;
 public class HeaderFragment extends Fragment {
     User user;
 
+    public static HeaderFragment newInstance(User currentUser) {
+        HeaderFragment fragmentHeader = new HeaderFragment();
+        fragmentHeader.user = currentUser;
+
+        return fragmentHeader;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

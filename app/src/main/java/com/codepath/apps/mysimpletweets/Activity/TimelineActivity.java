@@ -25,7 +25,9 @@ import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -75,10 +77,15 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     }
 
     private void getUserInfo() {
-        TwitterApplication.getRestClient().getUserInfo(new JsonHttpResponseHandler() {
+        TwitterApplication.getRestClient().getUserInfo(null ,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJSON(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("DEBUG", "getting User Info FAILED" + errorResponse.toString());
             }
         });
     }
@@ -106,6 +113,7 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
 
     public void onProfileView(MenuItem item) {
         Intent navigateToUserProfile = new Intent(this, ProfileActivity.class);
+        navigateToUserProfile.putExtra("user", Parcels.wrap(user));
         startActivity(navigateToUserProfile);
     }
 

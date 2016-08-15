@@ -22,15 +22,19 @@ public class ComposeDialogFragment extends DialogFragment {
     private User currentUser;
     private TextView tvCharacterCount;
     Tweet selectedTweet;
+    String buttonType;
 
     public ComposeDialogFragment() {
         // Required empty public constructor
     }
 
-    public static ComposeDialogFragment newInstance(Tweet selectedTweet, User user) {
+    public static ComposeDialogFragment newInstance(Tweet selectedTweet, User user, String buttonType) {
         ComposeDialogFragment frag = new ComposeDialogFragment();
         if (selectedTweet != null) {
             frag.selectedTweet = selectedTweet;
+        }
+        if (buttonType != null) {
+            frag.buttonType = buttonType;
         }
         frag.currentUser = user;
         return frag;
@@ -53,7 +57,11 @@ public class ComposeDialogFragment extends DialogFragment {
         tvCharacterCount = (TextView) view.findViewById(R.id.tvCharacterCount);
 
         if (selectedTweet != null) {
-            setupRetweet(view);
+            if (buttonType.equalsIgnoreCase("reply")) {
+                setupReply(view);
+            } else {
+                setupRetweet(view);
+            }
         } else {
             setupUserTweet(view);
         }
@@ -74,8 +82,9 @@ public class ComposeDialogFragment extends DialogFragment {
         ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
         User.setProfileImageWithRoundedCorners(getActivity(), currentUser.getProfileImageURL(), ivProfileImage);
 
-        TextView tvHandle = (TextView) view.findViewById(R.id.tvScreenName);
-        tvHandle.setText(currentUser.getScreeName());
+        TextView tvHandle = (TextView) view.findViewById(R.id.tvHandle);
+        String handle = "@" + currentUser.getScreeName();
+        tvHandle.setText(handle);
 
         TextView tvScreenName = (TextView) view.findViewById(R.id.tvScreenName);
         tvScreenName.setText(currentUser.getName());
@@ -92,6 +101,14 @@ public class ComposeDialogFragment extends DialogFragment {
 
         TextView tvScreenName = (TextView) view.findViewById(R.id.tvScreenName);
         tvScreenName.setText(selectedTweet.getUser().getName());
+    }
+
+    private void setupReply(View view) {
+        String handle = "@" + selectedTweet.getUser().getScreeName();
+        etComposeBody.setText(handle);
+
+        ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+        User.setProfileImageWithRoundedCorners(getActivity(), selectedTweet.getUser().getProfileImageURL(), ivProfileImage);
     }
 
     private void showKeyboardAndFocusOnBody(View editText) {

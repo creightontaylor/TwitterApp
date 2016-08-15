@@ -19,8 +19,8 @@
 
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/ivProfileImage"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
@@ -32,16 +32,19 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvScreenName"
                 android:layout_alignParentTop="true"
+                android:textStyle="bold"
                 android:layout_toLeftOf="@+id/ivProfileImage"
-                android:layout_toStartOf="@+id/ivProfileImage" />
+                android:layout_toStartOf="@+id/ivProfileImage"
+                android:paddingRight="3dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvHandle"
                 android:layout_below="@+id/tvScreenName"
-                android:layout_alignRight="@+id/tvScreenName"
-                android:layout_alignEnd="@+id/tvScreenName" />
+                android:layout_toLeftOf="@+id/ivProfileImage"
+                android:layout_toStartOf="@+id/ivProfileImage"
+                android:paddingRight="3dp"/>
 
             <Button
                 style="@style/closeButton"

@@ -55,7 +55,7 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.composeTweet) {
-            displayComposeFragmentFromAction(null);
+            displayComposeFragmentFromAction(null, null);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -71,8 +71,8 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
 
     }
 
-    private void displayComposeFragmentFromAction(Tweet selectedTweet) {
-        ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance(selectedTweet, user);
+    private void displayComposeFragmentFromAction(Tweet selectedTweet, String buttonType) {
+        ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance(selectedTweet, user, buttonType);
         composeDialogFragment.show(getFragmentManager(), "fragment_compose_from_action");
     }
 
@@ -91,8 +91,8 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     }
 
     @Override
-    public void onCompletedUserAction(Tweet selectedTweet) {
-        displayComposeFragmentFromAction(selectedTweet);
+    public void onCompletedUserAction(Tweet selectedTweet, String buttonType) {
+        displayComposeFragmentFromAction(selectedTweet, buttonType);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class TimelineActivity extends AppCompatActivity implements LaunchCompose
     public void onProfileView(MenuItem item) {
         Intent navigateToUserProfile = new Intent(this, ProfileActivity.class);
         navigateToUserProfile.putExtra("user", Parcels.wrap(user));
-        startActivity(navigateToUserProfile);
+//        startActivity(navigateToUserProfile);
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {

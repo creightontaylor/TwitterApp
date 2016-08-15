@@ -131,9 +131,8 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         reTweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(thisContext, "Retweet button tapped", Toast.LENGTH_SHORT).show();
                 LaunchComposeTweetListener listener = (LaunchComposeTweetListener) thisContext;
-                listener.onCompletedUserAction(tweet);
+                listener.onCompletedUserAction(tweet, "retweet");
             }
         });
 
@@ -150,9 +149,8 @@ public class TweetsRecycleAdapter extends RecyclerView.Adapter<TweetsRecycleAdap
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(thisContext, "Reply button tapped", Toast.LENGTH_SHORT).show();
                 LaunchComposeTweetListener listener = (LaunchComposeTweetListener) thisContext;
-                listener.onCompletedUserAction(tweet);
+                listener.onCompletedUserAction(tweet, "reply");
             }
         });
     }

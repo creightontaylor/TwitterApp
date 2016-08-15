@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.R;
@@ -53,14 +54,17 @@ public class HeaderFragment extends Fragment {
         String followingDisplay = String.valueOf(user.getFollowers()) + "Following";
         tvFollowing.setText(followingDisplay);
 
-        if (user.getBackgroundImageURL() != null) {
-            ImageView ivBackgroundImage = (ImageView) view.findViewById(R.id.ivBackgroundImage);
-            Picasso.with(getActivity()).load(user.getBackgroundImageURL()).into(ivBackgroundImage);
+        ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+        if (user.getProfileImageURL() != null) {
+            User.setProfileImageWithRoundedCorners(getActivity(), user.getProfileImageURL(), ivProfileImage);
         }
 
-        if (user.getProfileImageURL() != null) {
-            ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
-            User.setProfileImageWithRoundedCorners(getActivity(), user.getProfileImageURL(), ivProfileImage);
+        ImageView ivBackgroundImage = (ImageView) view.findViewById(R.id.ivBackgroundImage);
+        if (user.getBackgroundImageURL() != null) {
+            Picasso.with(getActivity()).load(user.getBackgroundImageURL()).into(ivBackgroundImage);
+        } else {
+            RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.relativeLayout_header);
+            relativeLayout.removeView(ivBackgroundImage);
         }
     }
 
